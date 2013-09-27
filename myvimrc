@@ -1,0 +1,116 @@
+" @Author: Mariano Vallés (zucaritas(at)gmail.com)
+" Some stuff comes from hukl/dotfile
+" Some other from wmalik@gmail.com .vimrc
+
+" Pathogen stuff
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+exec pathogen#infect()
+exec pathogen#helptags()
+
+" Essentials
+syntax on
+" Use Vim defaults instead of 100% vi compatibility
+set nocompatible
+" No folding
+set nofoldenable
+" Shows $ when in cw
+set cpoptions+=$
+" Set numbers
+set nu
+" Two spaces as identation
+set tabstop=2
+" Spaces as tab
+set expandtab
+" Number of spaces as tab
+set shiftwidth=2
+" Get autoindent on <cr>, 'o' and 'O'
+set autoindent
+
+filetype plugin on
+"
+filetype indent on
+set guifont=Source\ Code\ Pro\ SemiBold:h18
+let mapleader=","
+set background=dark
+set wildmenu
+set wildmode=list:longest
+" no sounds please
+set vb t_vb=".
+set novisualbell
+set cursorline
+set ttyfast
+set ruler
+set backspace=indent,eol,start
+set laststatus=2
+set nowrap
+set sidescroll=1
+set textwidth=80
+"set formatoptions=qrn1
+"set listchars=tab:▸\ ,eol:¬
+set smartcase
+set showmatch
+set directory=/tmp "this is to store all sw* files in /tmp
+set ignorecase
+set colorcolumn=80
+"set tw=80
+inoremap jk <Esc>
+colorscheme Tomorrow-Night
+" set relativenumber
+
+" For disabling the macvim toolbar
+if has("gui_running")
+    set mouse=a
+    set guioptions=egmrt
+    set guioptions-=m
+endif
+
+" Search
+set incsearch
+set hlsearch
+
+" Plugins and tweaks {
+set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,ebin
+if filereadable(".vimrc.project")
+    so .vimrc.project
+endif
+
+
+" CtrlP
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+" From http://vimcasts.org/episodes/tidying-whitespace/
+" Preserves/Saves the state, executes a command, and returns to the saved state
+" Modified from http://vimbits.com/bits/231
+" Remove trailing whitespace on save
+function! Preserve(command)
+    " Save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    execute a:command
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+" Execute clear whitespace on save
+autocmd BufWritePre * :call Preserve("%s/\\s\\+$//e")
+" Nerdtree toggle, dah!?
+map <C-n> :NERDTreeToggle<CR>
+" Open a new tab with content
+map <leader>t :tabnew %<cr>
+
+" Shortcuts {
+
+" Moving b2in splits
+nnoremap <Backspace> <C-w>w
+nnoremap <S-Backspace> <C-w>
+nnoremap <leader>w <C-w>v<C-w>l
+nnoremap <C-j> <C-w>w
+nnoremap <C-k> <C-w>W
+
+" Editing .vimrc with ease
+nnoremap <leader>ve :vsplit $MYVIMRC<cr>
+nnoremap <leader>vs :source $MYVIMRC<cr>
+"nnoremap <leader>dd :cd ~/programming/dd_backend<cr><cr>
+" }
