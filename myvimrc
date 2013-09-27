@@ -26,36 +26,50 @@ set shiftwidth=2
 " Get autoindent on <cr>, 'o' and 'O'
 set autoindent
 
+" Enable loading plugin files for specific filetypes
 filetype plugin on
-"
+" Load identation files (if any) for a filetype
 filetype indent on
+" Use source code (TODO: Install 'Source Code Pro' automagically)
 set guifont=Source\ Code\ Pro\ SemiBold:h18
+" Set leader to ,
 let mapleader=","
-set background=dark
+" Enhance command-line completion
 set wildmenu
+" Show all matches and complete till longest common
 set wildmode=list:longest
-" no sounds please
+" No sounds please
 set vb t_vb=".
-set novisualbell
+" Highlight the screen with the cursor
 set cursorline
+" Improve redrawing
 set ttyfast
+" Show current line & column of the cursor
 set ruler
+" Allow backspacing over [indent, eol, start]
 set backspace=indent,eol,start
+" Always have a status line on last window
 set laststatus=2
+" No wrapping on long lines
 set nowrap
+" One column to scroll horizontal
 set sidescroll=1
+" Break lines at 80 chars
 set textwidth=80
-"set formatoptions=qrn1
-"set listchars=tab:▸\ ,eol:¬
-set smartcase
-set showmatch
-set directory=/tmp "this is to store all sw* files in /tmp
+
+"this is to store all sw* files in /tmp
+set directory=/tmp
+" Ignore cases in patterns
 set ignorecase
+" When pattern has uppercase ignore ignorecase
+set smartcase
+" Jump to matching bracket when inserting first
+set showmatch
+" Colorize column 80
 set colorcolumn=80
-"set tw=80
-inoremap jk <Esc>
+
+
 colorscheme Tomorrow-Night
-" set relativenumber
 
 " For disabling the macvim toolbar
 if has("gui_running")
@@ -64,12 +78,11 @@ if has("gui_running")
     set guioptions-=m
 endif
 
-" Search
+" Search incrementally and highlight
 set incsearch
 set hlsearch
-
-" Plugins and tweaks {
-set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,ebin
+" Ignore some common files
+set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,*ebin
 if filereadable(".vimrc.project")
     so .vimrc.project
 endif
@@ -100,17 +113,16 @@ map <C-n> :NERDTreeToggle<CR>
 " Open a new tab with content
 map <leader>t :tabnew %<cr>
 
-" Shortcuts {
 
-" Moving b2in splits
+" Moving between splits
 nnoremap <Backspace> <C-w>w
 nnoremap <S-Backspace> <C-w>
 nnoremap <leader>w <C-w>v<C-w>l
 nnoremap <C-j> <C-w>w
 nnoremap <C-k> <C-w>W
 
+" Esc is a fast jk in insert mode
+inoremap jk <Esc>
 " Editing .vimrc with ease
 nnoremap <leader>ve :vsplit $MYVIMRC<cr>
 nnoremap <leader>vs :source $MYVIMRC<cr>
-"nnoremap <leader>dd :cd ~/programming/dd_backend<cr><cr>
-" }
