@@ -27,7 +27,6 @@ set shiftwidth=2
 " Get autoindent on <cr>, 'o' and 'O'
 set autoindent
 " Show trailing spaces and highlight hard tabs
-set list listchars=tab:»·,trail:·
 
 
 " Enable loading plugin files for specific filetypes
@@ -125,10 +124,6 @@ let g:ctrlp_custom_ignore = {
 
 " Map Ctrl+l to clear highlighted searches
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
-
-" Highlight characters behind the 80 chars margin
-:au BufWinEnter * let w:m2=matchadd('ColumnMargin', '\%>80v.\+', -1)
-
 
 
 " From http://vimcasts.org/episodes/tidying-whitespace/
