@@ -1,8 +1,19 @@
 dotfiles
 ========
 
-Collection of various config files
+### Install
 
-## Vim
+    ./install.sh
 
-run ```git submodule init && git submodule update``` before starting vim
+### Restore old source Files
+
+    ./install.sh restore
+
+### Thx
+
+Based mostly:
+    https://github.com/hukl/dotfiles
+
+With help from:
+    https://github.com/sontek/dotfiles
+
