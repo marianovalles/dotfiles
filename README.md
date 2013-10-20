@@ -9,11 +9,9 @@ dotfiles
 
     ./install.sh restore
 
-### Thx
+### Gracias
 
-Based mostly:
     https://github.com/hukl/dotfiles
-
-With help from:
+    https://github.com/holman/dotfiles
     https://github.com/sontek/dotfiles
 
