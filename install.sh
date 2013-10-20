@@ -24,16 +24,13 @@ fail () {
 
 link_file() {
     source="${PWD}/$1"
-    echo "VALUE OF $1"
     target="${HOME}/${1%.*}"
 
     if [ -e "${target}" ] && [ ! -L "${target}" ]; then
-        echo "mv $target $target.df.bak"
-        echo ""
+        mv $target $target.df.bak
     fi
 
-    echo "ln -sf ${source} .${target}"
-    echo ""
+    ln -sf ${source} ${target}
 }
 
 unlink_file() {
@@ -47,7 +44,7 @@ unlink_file() {
 }
 
 setup_gitconfig() {
-  if ! [ -f git/.gitconfig.symlink ]
+  if ! [ -f .gitconfig.symlink ]
   then
     info 'setup gitconfig'
 
@@ -69,7 +66,7 @@ setup_gitconfig() {
     success 'gitconfig'
   fi
 }
-# link files in $HOME
+
 setup_dotfiles(){
   if [ "$1" = "restore" ]; then
     for i in `find . -maxdepth 2 -name \*.symlink`
@@ -85,15 +82,21 @@ setup_dotfiles(){
   fi
 }
 
+setup_fonts(){
+  if [ "$(uname -s)" == "Darwin" ]
+  then
+    cp .fonts/* ~/Library/Fonts
+  fi
+}
+
 setup_vim_plugins(){
   git submodule update --init --recursive
   git submodule foreach --recursive git pull origin master
-  mv .vim .vim.symlink
 }
 
 # Boostrap
-# setup_gitconfig
+setup_gitconfig
+setup_fonts
 setup_vim_plugins
-# setup_dotfiles $1
-
+setup_dotfiles $1
 
