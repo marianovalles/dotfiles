@@ -24,18 +24,21 @@ fail () {
 
 link_file() {
     source="${PWD}/$1"
-    target="${HOME}/$1"
+    echo "VALUE OF $1"
+    target="${HOME}/${1%.*}"
 
     if [ -e "${target}" ] && [ ! -L "${target}" ]; then
-        mv $target $target.df.bak
+        echo "mv $target $target.df.bak"
+        echo ""
     fi
 
-    ln -sf ${source} ${target}
+    echo "ln -sf ${source} .${target}"
+    echo ""
 }
 
 unlink_file() {
     source="${PWD}/$1"
-    target="${HOME}/$1"
+    target="${HOME}/${1%.*}"
 
     if [ -e "${target}.df.bak" ] && [ -L "${target}" ]; then
         unlink ${target}
@@ -43,8 +46,8 @@ unlink_file() {
     fi
 }
 
-setup_gitconfig () {
-  if ! [ -f git/gitconfig.symlink ]
+setup_gitconfig() {
+  if ! [ -f git/.gitconfig.symlink ]
   then
     info 'setup gitconfig'
 
@@ -61,32 +64,36 @@ setup_gitconfig () {
 
     sed -e "s/AUTHOR_NAME/$git_authorname/g" -e \
     "s/AUTHOR_EMAIL/$git_authoremail/g" -e \
-    "s/GIT_CREDENTIAL_HELPER/$git_credential/g" .gitconfig.example
+    "s/GIT_CREDENTIAL_HELPER/$git_credential/g" .gitconfig.example > .gitconfig.symlink
 
     success 'gitconfig'
   fi
 }
+# link files in $HOME
+setup_dotfiles(){
+  if [ "$1" = "restore" ]; then
+    for i in `find . -maxdepth 2 -name \*.symlink`
+    do
+      unlink_file `basename $i`
+    done
+    exit
+  else
+    for i in `find . -maxdepth 2 -name \*.symlink`
+    do
+      link_file `basename $i`
+    done
+  fi
+}
 
-setup_gitconfig
+setup_vim_plugins(){
+  git submodule update --init --recursive
+  git submodule foreach --recursive git pull origin master
+  mv .vim .vim.symlink
+}
 
-#if [ "$1" = "vim" ]; then
-#    for i in .vim*
-#    do
-#       link_file $i
-#
-#    done
-#elif [ "$1" = "restore" ]; then
-#    for i in .*
-#    do
-#        unlink_file $i
-#    done
-#    exit
-#else
-#    for i in .*
-#    do
-#        link_file $i
-#    done
-#fi
-#
-#git submodule update --init --recursive
-#git submodule foreach --recursive git pull origin master
+# Boostrap
+# setup_gitconfig
+setup_vim_plugins
+# setup_dotfiles $1
+
+

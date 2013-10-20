@@ -1,8 +1,8 @@
 [user]
-  name = marianovalles
-  email = mariano.valles@wooga.com
+  name = AUTHOR_NAME
+  email = AUTHOR_EMAIL
 [credential]
-  helper = osxkeychain
+  helper = GIT_CREDENTIAL_HELPER
 [core]
   excludesfile = ~/.gitignore
   editor = vim
