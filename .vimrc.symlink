@@ -1,6 +1,6 @@
 " @Author: Mariano Vallés (zucaritas(at)gmail.com)
 " Some other from wmalik@gmail.com .vimrc
-" Some stuff comes from hukl/dotfile
+" Some stuff comes from hukl/dotfiles
 
 " Pathogen stuff
 runtime bundle/vim-pathogen/autoload/pathogen.vim
@@ -28,7 +28,6 @@ set shiftwidth=2
 set autoindent
 " Show trailing spaces and highlight hard tabs
 
-
 " Enable loading plugin files for specific filetypes
 filetype plugin on
 " Load identation files (if any) for a filetype
@@ -42,7 +41,7 @@ au FileType make set noexpandtab
 " au FileType erlang set softtabstop=4 tabstop=4 shiftwidth=4
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
-au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
+au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 
 " md, markdown, and mk are markdown and define buffer-local preview
 au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
@@ -51,8 +50,6 @@ au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
 au BufNewFile,BufRead *.json set ft=javascript
 
 au BufRead,BufNewFile *.txt call s:setupWrapping()
-"
-"}
 
 " Directories for swp files
 set backupdir=~/.vimbackup
@@ -99,9 +96,9 @@ colorscheme Tomorrow-Night
 
 " For disabling the macvim toolbar
 if has("gui_running")
-    set mouse=a
-    set guioptions=egmrt
-    set guioptions-=m
+  set mouse=a
+  set guioptions=egmrt
+  set guioptions-=m
 endif
 
 " Search incrementally and highlight
@@ -110,7 +107,7 @@ set hlsearch
 " Ignore some common files
 set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,*ebin
 if filereadable(".vimrc.project")
-    so .vimrc.project
+  so .vimrc.project
 endif
 
 
@@ -118,9 +115,9 @@ endif
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 " ctrlp custom ignores
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.eunit$',
-  \ 'file': '\.exe$\|\.so$\|\.dll\|\.beam$\|\.DS_Store$'
-  \ }
+      \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\assets\|\.eunit$',
+      \ 'file': '\.exe$\|\.so$\|\.dll\|\.beam$\|\.DS_Store$'
+      \ }
 
 " Map Ctrl+l to clear highlighted searches
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
@@ -131,23 +128,20 @@ nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 " Modified from http://vimbits.com/bits/231
 " Remove trailing whitespace on save
 function! Preserve(command)
-    " Save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    execute a:command
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
+  " Save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  execute a:command
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
 endfunction
 " Execute clear whitespace on save
-autocmd BufWritePre * :call Preserve("%s/\\s\\+$//e")
-" Nerdtree toggle, dah!?
-map <C-n> :NERDTreeToggle<CR>
+autocmd BufWritePre Gemfile, Rakefile, *.js, *.rb,*.ru, *.html, *.erl, *.erb :call Preserve("%s/\\s\\+$//e")
 " Open a new tab with content
 map <leader>t :tabnew %<cr>
-
 
 " Moving between splits
 nnoremap <Backspace> <C-w>w
