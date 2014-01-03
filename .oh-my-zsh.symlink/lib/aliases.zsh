@@ -1,5 +1,4 @@
 alias p='cd ~/programming'
-alias g='git'
 alias v='vim'
 alias rec='rebar compile'
 alias ll='ls -la'
