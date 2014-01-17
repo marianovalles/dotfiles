@@ -25,3 +25,6 @@
 [submodule ".vim.symlink/bundle/syntastic"]
 	path = .vim.symlink/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic
+[submodule ".vim.symlink/bundle/vundle"]
+	path = .vim.symlink/bundle/vundle
+	url = https://github.com/gmarik/vundle
