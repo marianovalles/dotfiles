@@ -2,11 +2,6 @@
 " Some other from wmalik@gmail.com .vimrc
 " Some stuff comes from hukl/dotfiles
 
-" Pathogen stuff
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-exec pathogen#infect()
-exec pathogen#helptags()
-
 " Essentials
 syntax on
 " Use Vim defaults instead of 100% vi compatibility
@@ -26,7 +21,25 @@ set softtabstop=2
 set shiftwidth=2
 " Get autoindent on <cr>, 'o' and 'O'
 set autoindent
-" Show trailing spaces and highlight hard tabs
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+"Vundle to manage plugins
+Bundle 'gmarik/vundle'
+
+" Ruby text objects
+Bundle 'kana/vim-textobj-user'
+Bundle 'nelstrom/vim-textobj-rubyblock'
+
+" Ag file searching
+Bundle 'rking/ag.vim'
+
+Bundle 'kien/ctrlp.vim'
+Bundle 'scrooloose/syntastic'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'oscarh/vimerl'
+
 
 " No arrow keys
 noremap <Up> <nop>
@@ -34,10 +47,8 @@ noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
 
-" Enable loading plugin files for specific filetypes
-filetype plugin on
-" Load identation files (if any) for a filetype
-filetype indent on
+" Enable loading plugin files and indent for specific filetypes
+filetype plugin indent on
 
 " hukl file config {
 " make uses real tabs

@@ -92,6 +92,7 @@ setup_fonts(){
 setup_vim_plugins(){
   git submodule update --init --recursive
   git submodule foreach --recursive git pull origin master
+  vim +BundleInstall +qall
 }
 
 # Boostrap
