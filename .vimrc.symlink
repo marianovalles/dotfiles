@@ -28,6 +28,12 @@ set shiftwidth=2
 set autoindent
 " Show trailing spaces and highlight hard tabs
 
+" No arrow keys
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
+
 " Enable loading plugin files for specific filetypes
 filetype plugin on
 " Load identation files (if any) for a filetype
@@ -49,7 +55,7 @@ au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
 
-au BufRead,BufNewFile *.txt call s:setupWrapping()
+"au BufRead,BufNewFile *.{txt, md} call s:setupWrapping()
 
 " Directories for swp files
 set backupdir=~/.vimbackup
@@ -91,7 +97,6 @@ set showmatch
 " Colorize column 80
 set colorcolumn=80
 
-
 colorscheme Tomorrow-Night
 
 " For disabling the macvim toolbar
@@ -110,19 +115,27 @@ if filereadable(".vimrc.project")
   so .vimrc.project
 endif
 
+"Ack.vim should use ag
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " CtrlP
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 " ctrlp custom ignores
 let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\assets\|\.eunit$',
+      \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.eunit$',
       \ 'file': '\.exe$\|\.so$\|\.dll\|\.beam$\|\.DS_Store$'
       \ }
 
 " Map Ctrl+l to clear highlighted searches
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
+" Highlight ing whitespace
+" set list listchars=tab:»·,trail:·
 
+" Avoid vim getting slow·
+if version >= 702
+  autocmd BufWinLeave * call clearmatches()
+endif
 " From http://vimcasts.org/episodes/tidying-whitespace/
 " Preserves/Saves the state, executes a command, and returns to the saved state
 " Modified from http://vimbits.com/bits/231
@@ -139,7 +152,7 @@ function! Preserve(command)
   call cursor(l, c)
 endfunction
 " Execute clear whitespace on save
-autocmd BufWritePre Gemfile, Rakefile, *.js, *.rb,*.ru, *.html, *.erl, *.erb :call Preserve("%s/\\s\\+$//e")
+autocmd BufWritePre Gemfile,Rakefile,*.{js,rb,ru,html,erl,erb} :call Preserve("%s/\\s\\+$//e")
 " Open a new tab with content
 map <leader>t :tabnew %<cr>
 
