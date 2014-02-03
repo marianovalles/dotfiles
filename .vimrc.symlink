@@ -73,7 +73,7 @@ set backupdir=~/.vimbackup
 set directory=~/.vimbackup
 
 " Set leader to ,
-let mapleader=","
+let mapleader="\\"
 " Enhance command-line completion
 set wildmenu
 " Show all matches and complete till longest common
@@ -164,8 +164,12 @@ function! Preserve(command)
 endfunction
 " Execute clear whitespace on save
 autocmd BufWritePre Gemfile,Rakefile,*.{js,rb,ru,html,erl,erb} :call Preserve("%s/\\s\\+$//e")
+" Parse json file using python
+map <leader>j  :%!python -m json.tool<CR>
 " Open a new tab with content
 map <leader>t :tabnew %<cr>
+" Clear all Caches for CtrlP
+map <leader><leader> :CtrlPClearAllCaches<cr>
 
 " Moving between splits
 nnoremap <Backspace> <C-w>w
