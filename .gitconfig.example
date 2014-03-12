@@ -19,6 +19,8 @@
   added = green
   changed = blue bold
   untracked = red
+[push]
+	default = simple
 [alias]
   s = status
   sb = status -sb

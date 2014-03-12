@@ -31,6 +31,9 @@ Bundle 'gmarik/vundle'
 " Ruby text objects
 Bundle 'kana/vim-textobj-user'
 Bundle 'nelstrom/vim-textobj-rubyblock'
+if has("autocmd")
+  filetype indent plugin on
+endif
 
 " Ag file searching
 Bundle 'rking/ag.vim'
@@ -40,6 +43,15 @@ Bundle 'scrooloose/syntastic'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'oscarh/vimerl'
 
+set cursorline
+noremap ; :set cursorline<CR>:set cursorcolumn<CR>:set nocursorline<CR>:set nocursorcolumn<CR>
+" flash the cursor position after every search
+map n n;
+map N N;
+map # #;
+map * *;
+hi CursorLine ctermbg=yellow guibg=yellow
+hi CursorColumn ctermbg=yellow guibg=yellow
 
 " No arrow keys
 noremap <Up> <nop>
@@ -94,8 +106,6 @@ set laststatus=2
 set nowrap
 " One column to scroll horizontal
 set sidescroll=1
-" Break lines at 80 chars
-set textwidth=80
 
 "this is to store all sw* files in /tmp
 set directory=/tmp
@@ -137,16 +147,17 @@ let g:ctrlp_custom_ignore = {
       \ 'file': '\.exe$\|\.so$\|\.dll\|\.beam$\|\.DS_Store$'
       \ }
 
+" Clear CtrlP cache when regaining focus
+autocmd FocusGained * :CtrlPClearAllCaches
+nnoremap <leader>t :CtrlP<cr>
 " Map Ctrl+l to clear highlighted searches
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
-
-" Highlight ing whitespace
-" set list listchars=tab:»·,trail:·
 
 " Avoid vim getting slow·
 if version >= 702
   autocmd BufWinLeave * call clearmatches()
 endif
+
 " From http://vimcasts.org/episodes/tidying-whitespace/
 " Preserves/Saves the state, executes a command, and returns to the saved state
 " Modified from http://vimbits.com/bits/231
@@ -167,10 +178,7 @@ autocmd BufWritePre Gemfile,Rakefile,*.{js,rb,ru,html,erl,erb} :call Preserve("%
 " Parse json file using python
 map <leader>j  :%!python -m json.tool<CR>
 " Open a new tab with content
-map <leader>t :tabnew %<cr>
-" Clear all Caches for CtrlP
-map <leader><leader> :CtrlPClearAllCaches<cr>
-
+map <leader>T :tabnew %<cr>
 " Moving between splits
 nnoremap <Backspace> <C-w>w
 nnoremap <S-Backspace> <C-w>
