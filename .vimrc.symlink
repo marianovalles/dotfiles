@@ -42,6 +42,7 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'oscarh/vimerl'
+Bundle 'terryma/vim-multiple-cursors'
 
 set cursorline
 noremap ; :set cursorline<CR>:set cursorcolumn<CR>:set nocursorline<CR>:set nocursorcolumn<CR>
