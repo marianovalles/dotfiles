@@ -25,6 +25,8 @@ filetype off
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+
+Bundle 'https://github.com/emgram769/vim-multiuser'
 "Vundle to manage plugins
 Bundle 'gmarik/vundle'
 
@@ -43,16 +45,9 @@ Bundle 'scrooloose/syntastic'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'oscarh/vimerl'
 Bundle 'terryma/vim-multiple-cursors'
+Bundle 'tpope/vim-surround'
 
 set cursorline
-noremap ; :set cursorline<CR>:set cursorcolumn<CR>:set nocursorline<CR>:set nocursorcolumn<CR>
-" flash the cursor position after every search
-map n n;
-map N N;
-map # #;
-map * *;
-hi CursorLine ctermbg=yellow guibg=yellow
-hi CursorColumn ctermbg=yellow guibg=yellow
 
 " No arrow keys
 noremap <Up> <nop>
@@ -110,6 +105,9 @@ set sidescroll=1
 
 "this is to store all sw* files in /tmp
 set directory=/tmp
+" save an undofile to be able to undo changes after closing files
+set undofile
+set undodir=~/.vimtmp/undo
 " Ignore cases in patterns
 set ignorecase
 " When pattern has uppercase ignore ignorecase
@@ -118,6 +116,8 @@ set smartcase
 set showmatch
 " Colorize column 80
 set colorcolumn=80
+" Enough mem, no swapping
+set noswapfile
 
 colorscheme Tomorrow-Night
 
