@@ -8,9 +8,8 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
-
 export PATH="$HOME:$HOME/bin:$HOME/bin/:usr/bin/:/usr/local/bin:$PATH"
-
 export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/;
 
 ssh-add > /dev/null 2>&1
+LC_LOCALE=utf-8

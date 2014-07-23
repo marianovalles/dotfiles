@@ -19,6 +19,7 @@
   added = green
   changed = blue bold
   untracked = red
+[mergetool "opendiff"]
 [push]
 	default = simple
 [alias]

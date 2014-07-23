@@ -26,7 +26,6 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Bundle 'https://github.com/emgram769/vim-multiuser'
 "Vundle to manage plugins
 Bundle 'gmarik/vundle'
 
@@ -38,48 +37,52 @@ if has("autocmd")
 endif
 
 " Ag file searching
-Bundle 'rking/ag.vim'
+Bundle 'epmatsw/ag.vim'
+" search in all files including gitignore
+" search case sensitive if there is an uppercase letter
+" search literally by default
+let g:agprg="ag --column --unrestricted --smart-case --literal"
+" map Cmd-Shift-F to project search
+map <D-F> :Ag!<Space>
+" map Cmd-Shift-* to project search for word under cursor
+nnoremap <D-*> <*>:Ag!<Space><C-R><C-W><CR>
 
 Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/syntastic'
+" Bundle 'scrooloose/syntastic'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'oscarh/vimerl'
-Bundle 'terryma/vim-multiple-cursors'
 Bundle 'tpope/vim-surround'
-
+" 
 set cursorline
-
+" 
 " No arrow keys
 noremap <Up> <nop>
 noremap <Down> <nop>
 noremap <Left> <nop>
 noremap <Right> <nop>
-
+" 
 " Enable loading plugin files and indent for specific filetypes
 filetype plugin indent on
-
+" 
 " hukl file config {
 " make uses real tabs
 au FileType make set noexpandtab
-
-" Erlang uses 4 spaces (not used now)
-" au FileType erlang set softtabstop=4 tabstop=4 shiftwidth=4
-
+" 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
-
+" 
 " md, markdown, and mk are markdown and define buffer-local preview
 au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
-
+" 
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
-
+" 
 "au BufRead,BufNewFile *.{txt, md} call s:setupWrapping()
 
 " Directories for swp files
 set backupdir=~/.vimbackup
 set directory=~/.vimbackup
-
+ 
 " Set leader to ,
 let mapleader="\\"
 " Enhance command-line completion
@@ -102,7 +105,7 @@ set laststatus=2
 set nowrap
 " One column to scroll horizontal
 set sidescroll=1
-
+" 
 "this is to store all sw* files in /tmp
 set directory=/tmp
 " save an undofile to be able to undo changes after closing files
@@ -120,14 +123,14 @@ set colorcolumn=80
 set noswapfile
 
 colorscheme Tomorrow-Night
-
+ 
 " For disabling the macvim toolbar
 if has("gui_running")
   set mouse=a
   set guioptions=egmrt
   set guioptions-=m
 endif
-
+" 
 " Search incrementally and highlight
 set incsearch
 set hlsearch
@@ -136,10 +139,7 @@ set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,*ebin
 if filereadable(".vimrc.project")
   so .vimrc.project
 endif
-
-"Ack.vim should use ag
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
+" 
 " CtrlP
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 " ctrlp custom ignores
@@ -147,17 +147,12 @@ let g:ctrlp_custom_ignore = {
       \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.eunit$',
       \ 'file': '\.exe$\|\.so$\|\.dll\|\.beam$\|\.DS_Store$'
       \ }
-
+ 
 " Clear CtrlP cache when regaining focus
 autocmd FocusGained * :CtrlPClearAllCaches
 nnoremap <leader>t :CtrlP<cr>
 " Map Ctrl+l to clear highlighted searches
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
-
-" Avoid vim getting slow·
-if version >= 702
-  autocmd BufWinLeave * call clearmatches()
-endif
 
 " From http://vimcasts.org/episodes/tidying-whitespace/
 " Preserves/Saves the state, executes a command, and returns to the saved state
@@ -170,7 +165,7 @@ function! Preserve(command)
   let c = col(".")
   " Do the business:
   execute a:command
-  " Clean up: restore previous search history, and cursor position
+"   " Clean up: restore previous search history, and cursor position
   let @/=_s
   call cursor(l, c)
 endfunction
@@ -186,7 +181,7 @@ nnoremap <S-Backspace> <C-w>
 nnoremap <leader>w <C-w>v<C-w>l
 nnoremap <C-j> <C-w>w
 nnoremap <C-k> <C-w>W
-
+ 
 " Esc is a fast jk in insert mode
 inoremap jk <Esc>
 " Editing .vimrc with ease
