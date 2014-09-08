@@ -30,8 +30,8 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " Ruby text objects
-Bundle 'kana/vim-textobj-user'
-Bundle 'nelstrom/vim-textobj-rubyblock'
+"Bundle 'kana/vim-textobj-user'
+"Bundle 'nelstrom/vim-textobj-rubyblock'
 if has("autocmd")
   filetype indent plugin on
 endif
@@ -135,7 +135,7 @@ endif
 set incsearch
 set hlsearch
 " Ignore some common files
-set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,*ebin
+set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,*ebin,*.git
 if filereadable(".vimrc.project")
   so .vimrc.project
 endif
