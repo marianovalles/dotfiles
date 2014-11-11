@@ -28,6 +28,10 @@ call vundle#rc()
 
 "Vundle to manage plugins
 Bundle 'gmarik/vundle'
+" Expand region selection
+Bundle 'terryma/vim-expand-region'
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
 " Ruby text objects
 "Bundle 'kana/vim-textobj-user'
@@ -41,7 +45,7 @@ Bundle 'epmatsw/ag.vim'
 " search in all files including gitignore
 " search case sensitive if there is an uppercase letter
 " search literally by default
-let g:agprg="ag --column --unrestricted --smart-case --literal"
+let g:agprg="ag --column --smart-case --literal --ignore-dir .git"
 " map Cmd-Shift-F to project search
 map <D-F> :Ag!<Space>
 " map Cmd-Shift-* to project search for word under cursor
@@ -54,7 +58,8 @@ Bundle 'oscarh/vimerl'
 Bundle 'tpope/vim-surround'
 " 
 set cursorline
-" 
+" Syntax coloring lines that are too long just slows down the world
+set synmaxcol=128 
 " No arrow keys
 noremap <Up> <nop>
 noremap <Down> <nop>
@@ -171,6 +176,8 @@ function! Preserve(command)
 endfunction
 " Execute clear whitespace on save
 autocmd BufWritePre Gemfile,Rakefile,*.{js,rb,ru,html,erl,erb} :call Preserve("%s/\\s\\+$//e")
+" Save using leader key
+nnoremap <Leader>w :w<CR>
 " Parse json file using python
 map <leader>j  :%!python -m json.tool<CR>
 " Open a new tab with content
