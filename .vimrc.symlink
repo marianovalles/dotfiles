@@ -26,6 +26,9 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+"Bundle "kchmck/vim-coffee-script"
+"Bundle "elixir-lang/vim-elixir"
+Bundle "scrooloose/syntastic.git"
 "Vundle to manage plugins
 Bundle 'gmarik/vundle'
 " Expand region selection
@@ -33,12 +36,27 @@ Bundle 'terryma/vim-expand-region'
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
+function! EnableHighlightAlign()
+  echo virtcol('.')
+  execute "set colorcolumn=+1," . virtcol('.')
+endfunction
+nnoremap <leader>h :call EnableHighlightAlign()<cr>
+ 
+" Disable the highlight
+function! DisableHighlightAlign()
+  execute "set colorcolumn=+1"
+endfunction
+nnoremap <leader>H :call DisableHighlightAlign()<cr> 
+
 " Ruby text objects
 "Bundle 'kana/vim-textobj-user'
 "Bundle 'nelstrom/vim-textobj-rubyblock'
 if has("autocmd")
   filetype indent plugin on
 endif
+" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " Ag file searching
 Bundle 'epmatsw/ag.vim'
@@ -59,7 +77,7 @@ Bundle 'tpope/vim-surround'
 " 
 set cursorline
 " Syntax coloring lines that are too long just slows down the world
-set synmaxcol=128 
+set synmaxcol=250
 " No arrow keys
 noremap <Up> <nop>
 noremap <Down> <nop>
