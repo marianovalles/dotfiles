@@ -26,6 +26,7 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+Bundle 'derekwyatt/vim-scala'
 "Bundle "kchmck/vim-coffee-script"
 "Bundle "elixir-lang/vim-elixir"
 Bundle "scrooloose/syntastic.git"
@@ -33,6 +34,16 @@ Bundle "scrooloose/syntastic.git"
 Bundle 'gmarik/vundle'
 " Expand region selection
 Bundle 'terryma/vim-expand-region'
+Bundle 'kien/ctrlp.vim'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'oscarh/vimerl'
+Bundle 'tpope/vim-surround'
+Bundle 'elixir-lang/vim-elixir'
+Bundle 'pangloss/vim-javascript'
+Bundle 'mxw/vim-jsx'
+"Should work for non jsx files too
+let g:jsx_ext_required = 0
+
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
@@ -68,13 +79,6 @@ let g:agprg="ag --column --smart-case --literal --ignore-dir .git"
 map <D-F> :Ag!<Space>
 " map Cmd-Shift-* to project search for word under cursor
 nnoremap <D-*> <*>:Ag!<Space><C-R><C-W><CR>
-
-Bundle 'kien/ctrlp.vim'
-" Bundle 'scrooloose/syntastic'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'oscarh/vimerl'
-Bundle 'tpope/vim-surround'
-" 
 set cursorline
 " Syntax coloring lines that are too long just slows down the world
 set synmaxcol=250
@@ -193,7 +197,7 @@ function! Preserve(command)
   call cursor(l, c)
 endfunction
 " Execute clear whitespace on save
-autocmd BufWritePre Gemfile,Rakefile,*.{js,rb,ru,html,erl,erb} :call Preserve("%s/\\s\\+$//e")
+autocmd BufWritePre Gemfile,Rakefile,*.{py,scala,ex,exs,java,js,rb,ru,html,erl,erb} :call Preserve("%s/\\s\\+$//e")
 " Save using leader key
 nnoremap <Leader>w :w<CR>
 " Parse json file using python

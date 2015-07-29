@@ -25,3 +25,15 @@ bindkey '[D' backward-word
 alias psb='cd ~/programming/Wooga/pocket_shooter_backend'
 
 source /usr/local/share/zsh/site-functions/_aws
+# Xms: Initial heap size 
+# Xmx: Max size of the mem allocation pool
+# Xmss: Thread stack size
+# XX:MaxMetaspaceSize: Max native memory for class metadata
+# http://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html
+export SBT_OPTS="-Xms512M -Xmx1536M -Xss1M -XX:MaxMetaspaceSize=256M"
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+
+export DOCKER_TLS_VERIFY=1
+export DOCKER_HOST=tcp://192.168.59.103:2376
+export DOCKER_CERT_PATH=/Users/valles/.boot2docker/certs/boot2docker-vm
