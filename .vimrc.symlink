@@ -59,6 +59,9 @@ function! DisableHighlightAlign()
 endfunction
 nnoremap <leader>H :call DisableHighlightAlign()<cr> 
 
+"Gitcommit message max 72 chars
+autocmd Filetype gitcommit setlocal spell textwidth=72
+
 " Ruby text objects
 "Bundle 'kana/vim-textobj-user'
 "Bundle 'nelstrom/vim-textobj-rubyblock'
