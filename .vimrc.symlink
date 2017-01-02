@@ -2,12 +2,82 @@
 " Some other from wmalik@gmail.com .vimrc
 " Some stuff comes from hukl/dotfiles
 
-" Essentials
+set nocompatible              " be iMproved, required
+filetype off                  " required
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+"Plugin 'vim-syntastic/syntastic.git'
+"Plugin 'vim-airline/vim-irline'
+"Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'tpope/vim-fugitive'
+" Python PEP8 syntax checker
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'nvie/vim-flake8'
+"Plugin 'junegunn/fzf'
+"Plugin 'junegunn/fzf.vim'
+"Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'oscarh/vimerl'
+Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/nerdtree'
+" Ag file searching
+Plugin 'epmatsw/ag.vim'
+" Python setup https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'davidhalter/jedi-vim'
+call vundle#end()            " required
+filetype plugin indent on 
+
+set rtp+=/usr/local/opt/fzf
+map <leader>t :FZF<CR>
+
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+"Syntax on
 syntax on
+let python_highlight_all=1
+" NERDTree on Ctrl-N
+map <C-n> :NERDTreeToggle<CR>
+"Flake8 autocheck syntax on write
+autocmd FileType python setlocal shiftwidth=4 tabstop=4
+let g:flake8_show_in_gutter=1  " show
+" autocmd BufWritePost *.py call Flake8()
+" Syntastic defaults
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"
+nmap gt: :tabnext<CR>
+nmap gT: :tabprevious<CR>
+
+"Syntastic config by usevim.com/2016/03/07/linting/
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_python_checkers = ['flake8']
+
+let g:syntastic_error_symbol = '❌'
+let g:syntastic_style_error_symbol = '⁉️'
+let g:syntastic_warning_symbol = '⚠️'
+let g:syntastic_style_warning_symbol = '💩'
+
+highlight link SyntasticErrorSign SignColumn
+highlight link SyntasticWarningSign SignColumn
+highlight link SyntasticStyleErrorSign SignColumn
+highlight link SyntasticStyleWarningSign SignColumn
+
+
 " Use Vim defaults instead of 100% vi compatibility
 set nocompatible
-" No folding
-set nofoldenable
+" Folding
+set foldmethod=indent
+set foldlevel=99
+nnoremap <space> za
+let g:SimpylFold_docstring_preview=1
+
 " Shows $ when in cw
 set cpoptions+=$
 set number
@@ -24,30 +94,14 @@ set autoindent
 filetype off
 
 autocmd BufRead,BufNewFile *.erl,*.hrl set shiftwidth=4 tabstop=4 softtabstop=4
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
 
 set guifont=Source\ Code\ Pro:h15
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'nelstrom/vim-subrip'
-Bundle "scrooloose/syntastic.git"
-"Vundle to manage plugins
-Bundle 'gmarik/vundle'
-" Expand region selection
-Bundle 'terryma/vim-expand-region'
-Bundle 'kien/ctrlp.vim'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'oscarh/vimerl'
-Bundle 'tpope/vim-surround'
-Bundle 'elixir-lang/vim-elixir'
-Bundle 'pangloss/vim-javascript'
-Bundle 'mxw/vim-jsx'
-"Should work for non jsx files too
-let g:jsx_ext_required = 0
-
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
+map <leader>c :!start /min ctags -R .<cr>
 
 function! EnableHighlightAlign()
   echo virtcol('.')
@@ -64,10 +118,6 @@ nnoremap <leader>H :call DisableHighlightAlign()<cr>
 "Gitcommit message max 72 chars
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
-" Ruby text objects
-"Bundle 'kana/vim-textobj-user'
-"Bundle 'nelstrom/vim-textobj-rubyblock'
-
 if has("autocmd")
   filetype indent plugin on
 endif
@@ -75,14 +125,12 @@ endif
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-" Ag file searching
-Bundle 'epmatsw/ag.vim'
 " search in all files including gitignore
 " search case sensitive if there is an uppercase letter
 " search literally by default
 let g:agprg="ag --column --smart-case --literal --ignore-dir .git"
 " map Cmd-Shift-F to project search
-map <D-F> :Ag!<Space>
+map <C-F> :Ag!<Space>
 " map Cmd-Shift-* to project search for word under cursor
 nnoremap <D-*> <*>:Ag!<Space><C-R><C-W><CR>
 set cursorline
@@ -113,7 +161,7 @@ au BufNewFile,BufRead *.json set ft=javascript
 "au BufRead,BufNewFile *.{txt, md} call s:setupWrapping()
 
 " Directories for swp files
-set backupdir=~/.vimbackup
+
 set directory=~/.vimbackup
  
 " Set leader to ,
@@ -172,18 +220,7 @@ set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,*ebin,*.git
 if filereadable(".vimrc.project")
   so .vimrc.project
 endif
-" 
-" CtrlP
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-" ctrlp custom ignores
-let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.eunit$',
-      \ 'file': '\.exe$\|\.so$\|\.dll\|\.beam$\|\.DS_Store$'
-      \ }
  
-" Clear CtrlP cache when regaining focus
-autocmd FocusGained * :CtrlPClearAllCaches
-nnoremap <leader>t :CtrlP<cr>
 " Map Ctrl+l to clear highlighted searches
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
@@ -208,7 +245,8 @@ autocmd BufWritePre Gemfile,Rakefile,*.{py,scala,ex,exs,java,js,rb,ru,html,erl,e
 nnoremap <Leader>w :w<CR>
 " Parse json file using python
 map <leader>j  :%!python -m json.tool<CR>
-" Open a new tab with content
+map s :tabprev<CR>
+map S :tabnext<CR>" " Open a new tab with content
 map <leader>T :tabnew %<cr>
 " Moving between splits
 nnoremap <Backspace> <C-w>w

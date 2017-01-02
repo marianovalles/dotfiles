@@ -1,0 +1,9 @@
+- Remove jenv from .zshrc
+- Remove aws control from .zshrc
+- Vim backup dir
+- Change vimrc to only include Vundle and install the rest automatically
+- Change keyboard speed automatically for Mac OS
+- Add spectale to Mac OS
+- Add 'brew the_silver_searcher'
+- Add languages Spanish and Canadian english to the keyboard layout
+- Add tomorrow_night.itermtheme to the repo and point it to the config
