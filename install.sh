@@ -89,13 +89,15 @@ setup_fonts(){
   fi
 }
 
-setup_vim_plugins(){
-  vim +BundleInstall +qall
+# Quick and dirty way of symlinking symlinks :P
+setup_nvim(){
+  mkdir ~/.config
+  ln -s ~/.vim ~/.config/nvim
+  ln -s ~/.vimrc ~/.config/nvim/init.vim
 }
 
 # Boostrap
 setup_gitconfig
 setup_fonts
-setup_vim_plugins
 setup_dotfiles $1
-
+setup_nvim

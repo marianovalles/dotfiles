@@ -45,3 +45,5 @@ export ARCANIST_INSTALL_DIR=/Users/mariano/.evbdevtools
 source $ARCANIST_INSTALL_DIR/devtools/scripts/devenv_bash/arcanist_helpers.sh
 alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 alias vim="nvim"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
