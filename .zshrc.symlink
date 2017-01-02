@@ -23,7 +23,6 @@ bindkey '[C' forward-word
 bindkey '[D' backward-word
 alias vshell='cd ~/eventbrite/docker-dev && vagrant up && vagrant shell'
 
-
 # Xms: Initial heap size 
 # Xmx: Max size of the mem allocation pool
 # Xmss: Thread stack size
@@ -31,11 +30,7 @@ alias vshell='cd ~/eventbrite/docker-dev && vagrant up && vagrant shell'
 # http://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html
 export SBT_OPTS="-XX:MetaspaceSize=64M -Xms512M -Xmx512M -Xss512k"
 export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
-
-export DOCKER_TLS_VERIFY=1
-export DOCKER_HOST=tcp://192.168.59.103:2376
-export DOCKER_CERT_PATH=/Users/valles/.boot2docker/certs/boot2docker-vm
+#eval "$(jenv init -)"
 
 export EDITOR="vim"
 export USE_EDITOR=$EDITOR
