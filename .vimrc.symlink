@@ -1,34 +1,157 @@
 " @Author: Mariano Vallés (zucaritas(at)gmail.com)
 " Some other from wmalik@gmail.com .vimrc
 " Some stuff comes from hukl/dotfiles
+" Some stuff comes from zenbro/dotfiles
 
-call plug#begin('~/.vim/plugged')
+" Autoinstall vim-plug {{{
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+" }}}
+call plug#begin('~/.vim/plugged') " Plugins initialization start {{{
+" }}}
 
-Plug 'neomake/neomake.git'
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-"Plug 'tpope/vim-fugitive'
-Plug 'vim-scripts/indentpython.vim'
-Plug 'nvie/vim-flake8'
+" ## Appearance 
+" ----------
+set background=dark
+colorscheme Tomorrow-Night
+" }}}
+Plug 'itchyny/lightline.vim'
+"" {{{
+  let g:lightline = {
+        \ 'colorscheme': 'jellybeans_mod',
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ],
+        \             [ 'fugitive', 'gitgutter', 'filename' ] ],
+        \   'right': [ [ 'percent', 'lineinfo' ],
+        \              [ 'syntastic' ],
+        \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \ },
+        \ 'component_function': {
+        \   'fugitive': 'LightLineFugitive',
+        \   'gitgutter': 'LightLineGitGutter',
+        \   'readonly': 'LightLineReadonly',
+        \   'modified': 'LightLineModified',
+        \   'syntastic': 'SyntasticStatuslineFlag',
+        \   'filename': 'LightLineFilename'
+        \ },
+        \ 'separator': { 'left': '░', 'right': '░' },
+        \ 'subseparator': { 'left': '>', 'right': '' }
+        \ }
+  function! LightLineModified()
+    if &filetype == "help"
+      return ""
+    elseif &modified
+      return "+"
+    elseif &modifiable
+      return ""
+    else
+      return ""
+    endif
+  endfunction
+
+  function! LightLineReadonly()
+    if &filetype == "help"
+      return ""
+    elseif &readonly
+      return "RO"
+    else
+      return ""
+    endif
+  endfunction
+
+  function! LightLineFugitive()
+    return exists('*fugitive#head') ? fugitive#head() : ''
+  endfunction
+
+  function! LightLineGitGutter()
+    if ! exists('*GitGutterGetHunkSummary')
+          \ || ! get(g:, 'gitgutter_enabled', 0)
+          \ || winwidth('.') <= 90
+      return ''
+    endif
+    let symbols = [
+          \ g:gitgutter_sign_added,
+          \ g:gitgutter_sign_modified,
+          \ g:gitgutter_sign_removed
+          \ ]
+    let hunks = GitGutterGetHunkSummary()
+    let ret = []
+    for i in [0, 1, 2]
+      if hunks[i] > 0
+        call add(ret, symbols[i] . hunks[i])
+      endif
+    endfor
+    return join(ret, ' ')
+  endfunction
+
+  function! LightLineFilename()
+    return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+        \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+  endfunction
+
+  Plug 'tpope/vim-sleuth'
+  Plug 'junegunn/limelight.vim'
+
+" ## Completion
+" -------------
+Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py --tern-completer' }
+" {{{
+  let g:ycm_autoclose_preview_window_after_completion = 1
+  let g:ycm_seed_identifiers_with_syntax = 1
+  let g:ycm_collect_identifiers_from_tags_files = 1
+  let g:ycm_key_invoke_completion = '<c-j>'
+  let g:ycm_complete_in_strings = 1
+" }}}
+
+" TODO:
+" Plug 'SirVer/ultisnips'
+" " {{{
+"   Plug 'honza/vim-snippets'
+" " }}}
+
+Plug 'neomake/neomake'
+Plug 'tpope/vim-fugitive'
+
+" ## Python
+" ---------
+"Plug 'vim-scripts/indentpython.vim'
+" Plug 'nvie/vim-flake8'
+
+"{{
+    "Flake8 autocheck syntax on write
+    "let g:flake8_show_in_gutter=1  " show
+"}}
+"
+" Python setup https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
+"Plug 'tmhedberg/SimpylFold'
+"{{
+  " Folding
+  " set foldmethod=indent
+  " set foldlevel=99
+  " let g:SimpylFold_docstring_preview=1
+" }}
+
+
+"Plug 'davidhalter/jedi-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 "Plugin 'ctrlpvim/ctrlp.vim'
 "Plugin 'oscarh/vimerl'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
+
 " Ag file searching
-Plug 'epmatsw/ag.vim'
-" Python setup https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
-Plug 'tmhedberg/SimpylFold'
-Plug 'davidhalter/jedi-vim'
+"Plug 'epmatsw/ag.vim'
 call plug#end()
 
 filetype plugin indent on 
 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-let python_highlight_all=1
-"Flake8 autocheck syntax on write
-let g:flake8_show_in_gutter=1  " show
 
 """"""""""""""""""""""""""""""""
 "  SET 
@@ -37,25 +160,10 @@ let g:flake8_show_in_gutter=1  " show
 " Use Vim defaults instead of 100% vi compatibility
 set nocompatible
 
-set syntax
-
-" Folding
-set foldmethod=indent
-set foldlevel=99
-let g:SimpylFold_docstring_preview=1
-
 " Shows $ when in cw
 set cpoptions+=$
 set number
-" Two spaces as identation
-set tabstop=4
-" Spaces as tab
-set expandtab
-"Number of spaces that a <Tab> counts for
-set softtabstop=4
-" Number of spaces as tab
-set shiftwidth=4
-" Get autoindent on <cr>, 'o' and 'O'
+
 set autoindent
 " Syntax coloring lines that are too long just slows down the world
 set synmaxcol=250
@@ -96,15 +204,7 @@ set colorcolumn=80
 " Enough mem, no swapping
 set noswapfile
 
-colorscheme Tomorrow-Night
  
-" For disabling the macvim toolbar
-if has("gui_running")
-  set mouse=a
-  set guioptions=egmrt
-  set guioptions-=m
-endif
-" 
 " Search incrementally and highlight
 set incsearch
 set hlsearch
@@ -117,18 +217,10 @@ filetype off
 """""""""""""""""""""""""""
 " AUTOCOMMANDS
 """""""""""""""""""""""""""
-au BufRead,BufNewFile *.rb, {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby shiftwidth=2 tabstop=2 softtabstop=2
-au BufNewFile,BufRead *.erl, *.hrl *.js, *.html, *.css, *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
- 
 " make uses real tabs
 au FileType make set noexpandtab
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
-au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
-" md, markdown, and mk are markdown and define buffer-local preview
-au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
+"au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
 
@@ -152,7 +244,7 @@ endfunction
 au BufWritePre Gemfile,Rakefile,*.{py,scala,ex,exs,java,js,rb,ru,html,erl,erb} :call Preserve("%s/\\s\\+$//e")
 "Gitcommit message max 72 chars
 au Filetype gitcommit setlocal spell textwidth=72
-au BufWritePost *.py call Flake8()
+"au BufWritePost *.py call Flake8()
 
 
 """""""""""""""
@@ -167,7 +259,7 @@ noremap <Right> <nop>
 
 let mapleader="\\"
 
-map <C-F> :Ag!<Space>
+map <C-F> :Ag<Space>
 
 function! EnableHighlightAlign()
   echo virtcol('.')
@@ -175,12 +267,7 @@ function! EnableHighlightAlign()
 endfunction
 nnoremap <leader>h :call EnableHighlightAlign()<cr>
  
-" Disable the highlight
-function! DisableHighlightAlign()
-  execute "set colorcolumn=+1"
-endfunction
-nnoremap <leader>H :call DisableHighlightAlign()<cr> 
-
+"SimplyFold mapping
 nnoremap <space> za
 " Map Ctrl+l to clear highlighted searches
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
@@ -211,3 +298,5 @@ map <leader>t :FZF<CR>
 map <C-n> :NERDTreeToggle<CR>
 " Rewrite tags file
 map <leader>c :!ctags -R .<cr>
+"
+map <silent> <F8> :copen<CR>
