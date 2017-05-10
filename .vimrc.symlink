@@ -20,26 +20,37 @@ colorscheme Tomorrow-Night
 " }}}
 Plug 'itchyny/lightline.vim'
 "" {{{
-  let g:lightline = {
-        \ 'colorscheme': 'jellybeans_mod',
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],
-        \             [ 'fugitive', 'gitgutter', 'filename' ] ],
-        \   'right': [ [ 'percent', 'lineinfo' ],
-        \              [ 'syntastic' ],
-        \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
-        \ },
-        \ 'component_function': {
-        \   'fugitive': 'LightLineFugitive',
-        \   'gitgutter': 'LightLineGitGutter',
-        \   'readonly': 'LightLineReadonly',
-        \   'modified': 'LightLineModified',
-        \   'syntastic': 'SyntasticStatuslineFlag',
-        \   'filename': 'LightLineFilename'
-        \ },
-        \ 'separator': { 'left': '░', 'right': '░' },
-        \ 'subseparator': { 'left': '>', 'right': '' }
-        \ }
+let g:lightline = {
+      \ 'mode_map': {
+      \   'n' : 'N',
+      \   'i' : 'I',
+      \   'R' : 'R',
+      \   'v' : 'V',
+      \   'V' : 'V-LINE',
+      \   "\<C-v>": 'V-BLOCK',
+      \   'c' : 'COMMAND',
+      \   's' : 'SELECT',
+      \   'S' : 'S-LINE',
+      \   "\<C-s>": 'S-BLOCK',
+      \   't': 'TERMINAL',
+      \ },
+      \ 'colorscheme': 'jellybeans_mod',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'gitgutter', 'filename' ] ],
+      \   'right': [ [ 'percent', 'lineinfo' ],
+      \              [ 'syntastic' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitgutter': 'LightLineGitGutter',
+      \   'readonly': 'LightLineReadonly',
+      \   'modified': 'LightLineModified',
+      \   'filename': 'LightLineFilename'
+      \ },
+      \ 'separator': { 'left': '░', 'right': '░' },
+      \ 'subseparator': { 'left': '>', 'right': '' }
+      \ }
   function! LightLineModified()
     if &filetype == "help"
       return ""
@@ -93,8 +104,8 @@ Plug 'itchyny/lightline.vim'
         \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
   endfunction
 
-  Plug 'tpope/vim-sleuth'
-  Plug 'junegunn/limelight.vim'
+Plug 'tpope/vim-sleuth'
+Plug 'vim-scripts/indentpython.vim'
 
 " ## Completion
 " -------------
@@ -159,6 +170,11 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 " Use Vim defaults instead of 100% vi compatibility
 set nocompatible
+set cb=unnamedplus
+syntax on
+if has("autocmd")
+  filetype plugin indent on
+endif
 
 " Shows $ when in cw
 set cpoptions+=$
@@ -260,6 +276,11 @@ noremap <Right> <nop>
 let mapleader="\\"
 
 map <C-F> :Ag<Space>
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:50%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
 
 function! EnableHighlightAlign()
   echo virtcol('.')
@@ -300,3 +321,4 @@ map <C-n> :NERDTreeToggle<CR>
 map <leader>c :!ctags -R .<cr>
 "
 map <silent> <F8> :copen<CR>
+
