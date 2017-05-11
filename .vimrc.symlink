@@ -3,23 +3,36 @@
 " Some stuff comes from hukl/dotfiles
 " Some stuff comes from zenbro/dotfiles
 
-" Autoinstall vim-plug {{{
+" Autoinstall vim-plug 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
-" }}}
-call plug#begin('~/.vim/plugged') " Plugins initialization start {{{
-" }}}
+call plug#begin('~/.vim/plugged') " Plugins initialization start 
+Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-sleuth'
+Plug 'vim-scripts/indentpython.vim'
+"Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py --tern-completer' }
+Plug 'neomake/neomake'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'davidhalter/jedi-vim', {'for': 'python'}
+" Plug 'oscarh/vimerl'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+" Plug 'nvie/vim-flake8'
+call plug#end()
 
 " ## Appearance 
 " ----------
 set background=dark
 colorscheme Tomorrow-Night
-" }}}
-Plug 'itchyny/lightline.vim'
-"" {{{
+
+"" lightline
 let g:lightline = {
       \ 'mode_map': {
       \   'n' : 'N',
@@ -34,7 +47,6 @@ let g:lightline = {
       \   "\<C-s>": 'S-BLOCK',
       \   't': 'TERMINAL',
       \ },
-      \ 'colorscheme': 'jellybeans_mod',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'gitgutter', 'filename' ] ],
@@ -104,70 +116,33 @@ let g:lightline = {
         \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
   endfunction
 
-Plug 'tpope/vim-sleuth'
-Plug 'vim-scripts/indentpython.vim'
 
 " ## Completion
 " -------------
-Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py --tern-completer' }
-" {{{
-  let g:ycm_autoclose_preview_window_after_completion = 1
-  let g:ycm_seed_identifiers_with_syntax = 1
-  let g:ycm_collect_identifiers_from_tags_files = 1
-  let g:ycm_key_invoke_completion = '<c-j>'
-  let g:ycm_complete_in_strings = 1
-" }}}
-
-" TODO:
-" Plug 'SirVer/ultisnips'
-" " {{{
-"   Plug 'honza/vim-snippets'
-" " }}}
-
-Plug 'neomake/neomake'
-Plug 'tpope/vim-fugitive'
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_key_invoke_completion = '<c-j>'
+let g:ycm_complete_in_strings = 1
 
 " ## Python
 " ---------
-"Plug 'vim-scripts/indentpython.vim'
-" Plug 'nvie/vim-flake8'
+let g:jedi#popup_on_dot = 0
+let g:jedi#use_splits_not_buffers = "left"
 
-"{{
-    "Flake8 autocheck syntax on write
-    "let g:flake8_show_in_gutter=1  " show
-"}}
-"
+"Flake8 autocheck syntax on write
+"let g:flake8_show_in_gutter=1  " show
 " Python setup https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
-"Plug 'tmhedberg/SimpylFold'
-"{{
-  " Folding
-  " set foldmethod=indent
-  " set foldlevel=99
-  " let g:SimpylFold_docstring_preview=1
-" }}
-
-
-"Plug 'davidhalter/jedi-vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-"Plugin 'ctrlpvim/ctrlp.vim'
-"Plugin 'oscarh/vimerl'
-Plug 'tpope/vim-surround'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-
-
-" Ag file searching
-"Plug 'epmatsw/ag.vim'
-call plug#end()
+" Folding
+" set foldmethod=indent
+" set foldlevel=99
+" let g:SimpylFold_docstring_preview=1
 
 filetype plugin indent on 
-
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
-""""""""""""""""""""""""""""""""
-"  SET 
-""""""""""""""""""""""""""""""""
-
+" ## Set 
+"-------
 " Use Vim defaults instead of 100% vi compatibility
 set nocompatible
 set cb=unnamedplus
@@ -179,11 +154,9 @@ endif
 " Shows $ when in cw
 set cpoptions+=$
 set number
-
 set autoindent
 " Syntax coloring lines that are too long just slows down the world
 set synmaxcol=250
-
 set cursorline
 " Directories for swp files
 set directory=~/.vimbackup
@@ -219,8 +192,6 @@ set showmatch
 set colorcolumn=80
 " Enough mem, no swapping
 set noswapfile
-
- 
 " Search incrementally and highlight
 set incsearch
 set hlsearch
@@ -228,16 +199,11 @@ set hlsearch
 set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,*ebin,*.git
 let g:agprg="ag --column --smart-case --literal --ignore-dir .git"
 
-filetype off
+" Autocommands
+"==============
 
-"""""""""""""""""""""""""""
-" AUTOCOMMANDS
-"""""""""""""""""""""""""""
 " make uses real tabs
 au FileType make set noexpandtab
-" Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
-"au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru} set ft=ruby
-" add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
 
 " From http://vimcasts.org/episodes/tidying-whitespace/
@@ -263,9 +229,8 @@ au Filetype gitcommit setlocal spell textwidth=72
 "au BufWritePost *.py call Flake8()
 
 
-"""""""""""""""
-" MAPPINGS
-""""""""""""""
+" Mappings
+"=========
 
 " No arrow keys
 noremap <Up> <nop>
@@ -275,19 +240,12 @@ noremap <Right> <nop>
 
 let mapleader="\\"
 
-map <C-F> :Ag<Space>
-command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:50%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \                 <bang>0)
-
 function! EnableHighlightAlign()
   echo virtcol('.')
   execute "set colorcolumn=+1," . virtcol('.')
 endfunction
+
 nnoremap <leader>h :call EnableHighlightAlign()<cr>
- 
 "SimplyFold mapping
 nnoremap <space> za
 " Map Ctrl+l to clear highlighted searches
@@ -305,20 +263,19 @@ nnoremap <S-Backspace> <C-w>
 nnoremap <leader>W <C-w>v<C-w>l
 nnoremap <C-j> <C-w>w
 nnoremap <C-k> <C-w>W
- 
 " Esc is a fast jk in insert mode
 inoremap jk <Esc>
 " Editing .vimrc with ease
 nnoremap <leader>ve :vsplit $MYVIMRC<cr>
 nnoremap <leader>vs :source $MYVIMRC<cr>
-
 "FZF mapping ftw!
 map <leader>t :FZF<CR>
+map <C-F> :Ag<Space>
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:50%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
 
 " NERDTree on Ctrl-N
 map <C-n> :NERDTreeToggle<CR>
-" Rewrite tags file
-map <leader>c :!ctags -R .<cr>
-"
-map <silent> <F8> :copen<CR>
-
