@@ -1,4 +1,4 @@
-" @Author: Mariano Vallés (zucaritas(at)gmail.com)
+  " @Author: Mariano Vallés (zucaritas(at)gmail.com)
 " Some other from wmalik@gmail.com .vimrc
 " Some stuff comes from hukl/dotfiles
 " Some stuff comes from zenbro/dotfiles
@@ -14,13 +14,18 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-sleuth'
 Plug 'vim-scripts/indentpython.vim'
 "Plug 'Valloric/YouCompleteMe', { 'do': 'python2 install.py --tern-completer' }
-Plug 'neomake/neomake'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
+Plug 'airblade/vim-gitgutter'
+Plug 'mxw/vim-jsx'
+Plug 'neomake/neomake'
+Plug 'janko-m/vim-test'
+Plug '5long/pytest-vim-compiler'
+"Plug 'elixir-lang/vim-elixir'
 " Plug 'oscarh/vimerl'
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
@@ -116,22 +121,12 @@ let g:lightline = {
         \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
   endfunction
 
-
-" ## Completion
-" -------------
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_key_invoke_completion = '<c-j>'
-let g:ycm_complete_in_strings = 1
-
 " ## Python
 " ---------
 let g:jedi#popup_on_dot = 0
 let g:jedi#use_splits_not_buffers = "left"
-
+let g:jedi#completions_command = "<C-Space>"
 "Flake8 autocheck syntax on write
-"let g:flake8_show_in_gutter=1  " show
 " Python setup https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
 " Folding
 " set foldmethod=indent
@@ -140,6 +135,7 @@ let g:jedi#use_splits_not_buffers = "left"
 
 filetype plugin indent on 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+let g:neomake_open_list = 0
 
 " ## Set 
 "-------
@@ -163,7 +159,7 @@ set directory=~/.vimbackup
 " Enhance command-line completion
 set wildmenu
 " Show all matches and complete till longest common
-set wildmode=list:longest
+set wildmode=longest:full,full
 " No sounds please
 set vb t_vb=".
 " Highlight the screen with the cursor
@@ -197,13 +193,11 @@ set incsearch
 set hlsearch
 " Ignore some common files
 set wildignore=*.o,*~,*.beam,*.swf,*.mp3,*.jpg,*.png,*ebin,*.git
-let g:agprg="ag --column --smart-case --literal --ignore-dir .git"
 
 " Autocommands
 "==============
-
-" make uses real tabs
-au FileType make set noexpandtab
+autocmd! BufWritePost * Neomake
+autocmd BufEnter,FocusGained * checktime
 au BufNewFile,BufRead *.json set ft=javascript
 
 " From http://vimcasts.org/episodes/tidying-whitespace/
@@ -226,8 +220,15 @@ endfunction
 au BufWritePre Gemfile,Rakefile,*.{py,scala,ex,exs,java,js,rb,ru,html,erl,erb} :call Preserve("%s/\\s\\+$//e")
 "Gitcommit message max 72 chars
 au Filetype gitcommit setlocal spell textwidth=72
-"au BufWritePost *.py call Flake8()
 
+" Highlight trailing whitespaces
+" http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
 
 " Mappings
 "=========
@@ -245,6 +246,7 @@ function! EnableHighlightAlign()
   execute "set colorcolumn=+1," . virtcol('.')
 endfunction
 
+noremap <leader>p :echo expand('%:p')<cr>
 nnoremap <leader>h :call EnableHighlightAlign()<cr>
 "SimplyFold mapping
 nnoremap <space> za
@@ -257,6 +259,7 @@ map s :tabprev<CR>
 map S :tabnext<CR>" 
 " Open a new tab with content
 map <leader>T :tabnew %<cr>
+map <leader>B :Buffers<cr>
 " Moving between splits
 nnoremap <Backspace> <C-w>w
 nnoremap <S-Backspace> <C-w>
@@ -269,13 +272,42 @@ inoremap jk <Esc>
 nnoremap <leader>ve :vsplit $MYVIMRC<cr>
 nnoremap <leader>vs :source $MYVIMRC<cr>
 "FZF mapping ftw!
-map <leader>t :FZF<CR>
+map <leader>t :Files<CR>
+map <leader>b :Buffers<CR>
 map <C-F> :Ag<Space>
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 command! -bang -nargs=* Ag
   \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:50%')
+  \                 <bang>0 ? fzf#vim#with_preview('up:50%:hidden')
   \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
   \                 <bang>0)
-
 " NERDTree on Ctrl-N
 map <C-n> :NERDTreeToggle<CR>
+noremap <leader>q :TestNearest<CR>
+
+
+" Other sources
+" vim-test
+" Use neovim strategy
+let test#strategy = "neovim"
+" Transformation for bay
+function! BayTransform(cmd) abort
+  " Core: Remove project's prefix for Django tests
+  let modified_cmd = substitute(a:cmd, 'django.src.www.eventbrite.', '', '')
+  " Run the command in core-web container
+  " FIXME: Added `reset` because of current bug in Docker for Mac 17.06.0-rc1-ce-mac13
+  return 'bay attach core-web "reset; '.modified_cmd.'"'
+endfunction
+" Set transformation
+let g:test#custom_transformations = {'bay': function('BayTransform')}
+let g:test#transformation = 'bay'
+" Set python test runner. `djangonose` correctly separates path and class name
+" with `:`
+let test#python#runner = 'djangonose'
+" Set `qt` as python runner executable
+let test#python#djangotest#executable = 'qt'
+" Set all py files as possible test files
+let test#python#djangotest#file_pattern = '\.py'
+
+" source .vimrc_private
