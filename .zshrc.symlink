@@ -8,8 +8,7 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH=$PATH/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
-export PATH="$HOME:$HOME/bin:$HOME/bin/:/usr/bin/:/usr/local/bin:$PATH"
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 export PATH="$HOME/.fzf/bin:$PATH"
 export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/;
 
@@ -32,7 +31,6 @@ bindkey '[D' backward-word
 # XX:MaxMetaspaceSize: Max native memory for class metadata
 # http://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html
 export SBT_OPTS="-XX:MetaspaceSize=64M -Xms512M -Xmx512M -Xss512k"
-export PATH="$HOME/.jenv/bin:$PATH"
 #eval "$(jenv init -)"
 
 export EDITOR="nvim"
@@ -43,9 +41,12 @@ export ARCANIST_INSTALL_DIR=/Users/mariano/.evbdevtools
 source $ARCANIST_INSTALL_DIR/devtools/scripts/devenv_bash/arcanist_helpers.sh
 alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 alias vim="nvim"
-alias vssh="cd ~/eventbrite/docker-dev; vagrant ssh"
 alias rf="rm -rf"
 alias gbr="git branch | fzf | xargs git checkout"
+alias gcontains="git branch -r --contains "
+# Die grep, die
+alias ag="rg"
+alias arcdiff="arc lint && arc diff"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -60,11 +61,16 @@ PERL_MM_OPT="INSTALL_BASE=/Users/mariano/perl5"; export PERL_MM_OPT;
 export BAY_HOME=/Users/mariano/eventbrite/docker-dev
 
 # Change tab color based on pwd.
-function tab_color_precmd {
-  ~/.change-tab-color-pwd 0.5 0.5
-}
-autoload -U add-zsh-hook
-add-zsh-hook precmd tab_color_precmd
+#function tab_color_precmd {
+#  ~/.change-tab-color-pwd 0.5 0.5
+#}
+#autoload -U add-zsh-hook
+#add-zsh-hook precmd tab_color_precmd
 
 export TUG_HOME=/Users/mariano/eventbrite/docker-dev
+alias cdlogs='cd /Users/mariano/eventbrite/docker-dev/volumes/logs/eventbrite'
 
+# Executable for Homebrew installed Python
+# export WORKON_HOME=~/Envs
+# source /usr/local/bin/virtualenvwrapper.sh
+# export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2

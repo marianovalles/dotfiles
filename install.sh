@@ -67,6 +67,12 @@ setup_gitconfig() {
   fi
 }
 
+setup_ctags(){
+  mkdir ~/.git_template/hooks
+  cp ctags/ctags/* ~/.git_template/hooks/
+  git config --global init.templatedir '~/.git_template'
+}
+
 setup_dotfiles(){
   if [ "$1" = "restore" ]; then
     for i in `find . -maxdepth 2 -name \*.symlink`
@@ -96,8 +102,14 @@ setup_nvim(){
   ln -s ~/.vimrc ~/.config/nvim/init.vim
 }
 
+setup_homebrew(){
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+}
+
 # Boostrap
+setup_homebrew
 setup_gitconfig
 setup_fonts
 setup_dotfiles $1
+setup_ctags
 setup_nvim

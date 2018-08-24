@@ -1,2 +1,4 @@
-.gitconfig.symlink
-.vim.symlink/.netrwhist
+ctags
+plugged
+.DS_Store
+private.vim
