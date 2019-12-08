@@ -7,13 +7,6 @@ source $HOME/.vim/plugins.vim
 source $HOME/.vim/general.vim
 source $HOME/.vim/appearance.vim
 source $HOME/.vim/mappings.vim
-source $HOME/.vim/private.vim
 
-" com! -complete=custom,TestPath -nargs=1 TestSuiteAuto TestSuite <args>
-" function! TestPath(A,L,P)
-"   return globpath('django/src/www/eventbrite', a:A . '**/')
-" endfun
-:tnoremap <leader>qq <C-\><C-n>
-noremap <leader>i :%!isort -<cr>
 set mouse=a
 

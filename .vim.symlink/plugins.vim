@@ -7,21 +7,25 @@ endif
 
 " Plugins initialization start
 call plug#begin('~/.vim/plugged')
+Plug 'kchmck/vim-coffee-script'
 Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'rakr/vim-one'
 Plug 'tpope/vim-sleuth'
-Plug 'vim-scripts/indentpython.vim'
+"Plug 'vim-scripts/indentpython.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'dense-analysis/ale'
 "FZF mapping ftw!
-map <leader>ff :Files<CR>
+map <leader>ff :GFiles<CR>
 map <leader>fb :Buffers<CR>
 map <leader>fa :Rg<Space>
 map <C-F> :Rg<Space>
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 command! -bang -nargs=? -complete=dir GFiles
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 command! -bang -nargs=* Rg
@@ -37,29 +41,30 @@ Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 " NERDTree on Ctrl-N
 map <C-n> :NERDTreeFind<CR>
 
-Plug 'davidhalter/jedi-vim', {'for': 'python'}
-let g:jedi#popup_on_dot = 0
-let g:jedi#use_splits_not_buffers = "left"
-let g:jedi#completions_command = "<C-Space>"
+"Plug 'davidhalter/jedi-vim', {'for': 'python'}
+"let g:jedi#popup_on_dot = 0
+"let g:jedi#use_splits_not_buffers = "left"
+"let g:jedi#completions_command = "<C-Space>"
 
 Plug 'airblade/vim-gitgutter'
-Plug 'neomake/neomake'
-let g:neomake_open_list = 0
-autocmd! BufWritePost * Neomake
-let g:neomake_python_enabled_makers = ['flake8', 'python']
+"Plug 'neomake/neomake'
+"
+"let g:neomake_open_list = 0
+"autocmd! BufWritePost * Neomake
+"let g:neomake_python_enabled_makers = ['flake8', 'python']
 
 
 Plug 'janko-m/vim-test'
-Plug '5long/pytest-vim-compiler'
+"Plug '5long/pytest-vim-compiler'
 noremap <leader>tn :TestNearest<CR>
 noremap <leader>tf :TestFile<CR>
 noremap <leader>tl :TestLast<CR>
 " Use neovim strategy
 "let test#strategy = "neovim"
 
-Plug 'fisadev/vim-isort'
-let g:vim_isort_python_version = 'python2'
-Plug 'majutsushi/tagbar', {'for': 'python'}
+"Plug 'fisadev/vim-isort'
+"let g:vim_isort_python_version = 'python2'
+"Plug 'majutsushi/tagbar', {'for': 'python'}
 Plug 'tmhedberg/SimpylFold'
 set foldmethod=indent
 set foldlevel=99

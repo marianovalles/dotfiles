@@ -68,10 +68,7 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[init]
-	templatedir = ~/.git_template
 [user]
-[user]
-	name = Mariano Valles
+	name = Mariano Vallés
 	initials = mv
-	email = mariano@eventbrite.com
+	email = zucaritas@gmail.com

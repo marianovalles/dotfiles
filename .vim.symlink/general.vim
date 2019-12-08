@@ -6,6 +6,7 @@ set nocompatible
 " Use one single pastebuffer in Shell and OS
 set cb=unnamedplus
 syntax on
+set ff=unix
 
 " Shows $ when in cw
 set cpoptions+=$
