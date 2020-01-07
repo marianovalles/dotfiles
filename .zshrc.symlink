@@ -7,17 +7,12 @@ ZSH_THEME="robbyrussell"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+[ -f ~/.private.zsh ] && source ~/.private.zsh
 
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 export PATH="$HOME/.fzf/bin:$PATH"
-export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/;
 
-LC_LOCALE=utf-8
-LC_CTYPE=utf-8
-LC_CTYPE=en_US.UTF-8
-LC_ALL=en_US.UTF-8
-LANG=en_US.UTF-8
-# Allow [ or ] whereever you want
+# Allow [ or ] wherever you want
 unsetopt nomatch
 
 # Making alt key to move one key left or right
@@ -30,47 +25,33 @@ bindkey '[D' backward-word
 # Xmss: Thread stack size
 # XX:MaxMetaspaceSize: Max native memory for class metadata
 # http://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html
-export SBT_OPTS="-XX:MetaspaceSize=64M -Xms512M -Xmx512M -Xss512k"
 #eval "$(jenv init -)"
 
 export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
 export VISUAL=$EDITOR
 
-export ARCANIST_INSTALL_DIR=/Users/mariano/.evbdevtools
-source $ARCANIST_INSTALL_DIR/devtools/scripts/devenv_bash/arcanist_helpers.sh
-alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 alias vim="nvim"
 alias rf="rm -rf"
 alias gbr="git branch | fzf | xargs git checkout"
 alias gcontains="git branch -r --contains "
 # Die grep, die
 alias ag="rg"
-alias arcdiff="arc lint && arc diff"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export LC_ALL=en_US.UTF-8
 
-PATH="/Users/mariano/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/Users/mariano/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/mariano/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/mariano/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/mariano/perl5"; export PERL_MM_OPT;
-
-export BAY_HOME=/Users/mariano/eventbrite/docker-dev
-
 # Change tab color based on pwd.
-#function tab_color_precmd {
-#  ~/.change-tab-color-pwd 0.5 0.5
-#}
-#autoload -U add-zsh-hook
-#add-zsh-hook precmd tab_color_precmd
-
-export TUG_HOME=/Users/mariano/eventbrite/docker-dev
-alias cdlogs='cd /Users/mariano/eventbrite/docker-dev/volumes/logs/eventbrite'
+function tab_color_precmd {
+  ~/.change-tab-color-pwd 0.5 0.5
+}
+autoload -U add-zsh-hook
+add-zsh-hook precmd tab_color_precmd
 
 # Executable for Homebrew installed Python
 # export WORKON_HOME=~/Envs
 # source /usr/local/bin/virtualenvwrapper.sh
 # export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2
+PATH="$HOME/.cargo/bin:$PATH"
+eval "$(rbenv init -)"

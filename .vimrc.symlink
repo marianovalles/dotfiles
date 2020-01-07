@@ -13,7 +13,6 @@ source $HOME/.vim/private.vim
 " function! TestPath(A,L,P)
 "   return globpath('django/src/www/eventbrite', a:A . '**/')
 " endfun
-:tnoremap <leader>qq <C-\><C-n>
-noremap <leader>i :%!isort -<cr>
+" noremap <leader>i :%!isort -<cr>
 set mouse=a
 

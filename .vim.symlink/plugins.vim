@@ -37,11 +37,13 @@ Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 " NERDTree on Ctrl-N
 map <C-n> :NERDTreeFind<CR>
 
-Plug 'davidhalter/jedi-vim', {'for': 'python'}
-let g:jedi#popup_on_dot = 0
-let g:jedi#use_splits_not_buffers = "left"
-let g:jedi#completions_command = "<C-Space>"
+" Plug 'davidhalter/jedi-vim', {'for': 'python'}
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#use_splits_not_buffers = "left"
+" let g:jedi#completions_command = "<C-Space>"
 
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" 
 Plug 'airblade/vim-gitgutter'
 Plug 'neomake/neomake'
 let g:neomake_open_list = 0
@@ -50,21 +52,30 @@ let g:neomake_python_enabled_makers = ['flake8', 'python']
 
 
 Plug 'janko-m/vim-test'
-Plug '5long/pytest-vim-compiler'
+"Plug '5long/pytest-vim-compiler'
 noremap <leader>tn :TestNearest<CR>
 noremap <leader>tf :TestFile<CR>
 noremap <leader>tl :TestLast<CR>
 " Use neovim strategy
 "let test#strategy = "neovim"
 
-Plug 'fisadev/vim-isort'
-let g:vim_isort_python_version = 'python2'
-Plug 'majutsushi/tagbar', {'for': 'python'}
+Plug 'majutsushi/tagbar', {'for': 'ruby'}
 Plug 'tmhedberg/SimpylFold'
 set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
 let g:SimpylFold_docstring_preview=1
+
+" Deoplete
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+let g:deoplete#enable_at_startup = 1
 
 " ## Used in the past
 " Plug 'kana/vim-textobj-user'

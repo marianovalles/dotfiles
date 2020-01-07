@@ -72,6 +72,6 @@
 	templatedir = ~/.git_template
 [user]
 [user]
-	name = Mariano Valles
-	initials = mv
-	email = mariano@eventbrite.com
+	name = Mariano Vallés
+    initials = mv
+    email = mariano@tonsser.com

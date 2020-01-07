@@ -1,5 +1,12 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/Users/mariano/eventbrite/core'
-let g:netrw_dirhist_2='/Users/mariano/eventbrite'
-let g:netrw_dirhist_3='/Users/mariano/eventbrite/core'
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/Users/zucaritask/programming/Tonsser/tonsser-api'
+let g:netrw_dirhist_6='/Users/zucaritask/.vim'
+let g:netrw_dirhist_5='/Users/zucaritask/programming/Tonsser/tonsser-api'
+let g:netrw_dirhist_4='/Users/zucaritask/programming/Tonsser/tonsser-api/app/services/post_cards/types'
+let g:netrw_dirhist_3='/Users/zucaritask/programming/Tonsser/tonsser-api/spec/requests/discover'
+let g:netrw_dirhist_2='/Users/zucaritask/programming/Tonsser/tonsser-api'
+let g:netrw_dirhist_1='/Users/zucaritask/programming/Tonsser/tonsser-api/.circleci'
+let g:netrw_dirhist_0='/Users/zucaritask/programming/Tonsser/tonsser-api'
+let g:netrw_dirhist_9='/Users/zucaritask/programming/Tonsser/tonsser-api/app/controllers'
+let g:netrw_dirhist_8='/Users/zucaritask/programming/Tonsser/tonsser-api/app'

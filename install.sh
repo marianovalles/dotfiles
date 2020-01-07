@@ -68,7 +68,7 @@ setup_gitconfig() {
 }
 
 setup_ctags(){
-  mkdir ~/.git_template/hooks
+  mkdir -p ~/.git_template/hooks
   cp ctags/ctags/* ~/.git_template/hooks/
   git config --global init.templatedir '~/.git_template'
 }
@@ -97,13 +97,23 @@ setup_fonts(){
 
 # Quick and dirty way of symlinking symlinks :P
 setup_nvim(){
-  mkdir ~/.config
-  ln -s ~/.vim ~/.config/nvim
-  ln -s ~/.vimrc ~/.config/nvim/init.vim
+  mkdir -p ~/.config
+  if [ ! -L ~/.config/nvim ]
+  then
+    ln -s ~/.vim ~/.config/nvim
+  fi
+
+  if [ ! -L ~/.config/nvim/init.vim ]
+  then
+    ln -s ~/.vimrc ~/.config/nvim
+  fi
 }
 
 setup_homebrew(){
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  if ! [ -x "$(command -v brew)" ];
+  then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
 }
 
 # Boostrap
@@ -111,5 +121,5 @@ setup_homebrew
 setup_gitconfig
 setup_fonts
 setup_dotfiles $1
-setup_ctags
+# setup_ctags
 setup_nvim
