@@ -28,6 +28,8 @@
   co = checkout
   df = diff
   ui = update-index
+  ps = push
+  pl = pull
   unchange = update-index --assume-unchanged
   change = update-index --no-assume-unchanged
   dc = diff --cached

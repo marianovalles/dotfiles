@@ -7,6 +7,10 @@ endif
 
 " Plugins initialization start
 call plug#begin('~/.vim/plugged')
+Plug 'Yggdroot/indentLine'
+" Disable indentation lines by default
+let g:indentLine_enabled = 0
+map <leader>il :IndentLinesToggle<CR>
 Plug 'jparise/vim-graphql'
 Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
